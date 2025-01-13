@@ -1,0 +1,22 @@
+# .gitignore
+# Ignore node_modules and log files
+node_modules/
+*.log
+
+temp/
+.DS_Store
+.env
+.idea/
+.vscode/
+
+data/
+.cache/
+
+# Ignore system files
+Thumbs.db
+Desktop.ini
+
+# Additional ignores
+coverage/
+
+issue.txt

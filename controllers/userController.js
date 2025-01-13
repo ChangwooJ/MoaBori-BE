@@ -1,3 +1,4 @@
+const passport = require('passport');
 const User = require('../models/userModel');
 
 const singUpUser = async (req, res) => {
@@ -15,4 +16,30 @@ const singUpUser = async (req, res) => {
     }
 }
 
-module.exports = { singUpUser };
+const loginUser = (req, res, next) => {
+    passport.authenticate("local", (res, req, info) => {
+        if(err){
+            return next(err);
+        }
+        if(!user){
+            return res.status(401).json({ message: info.message || "인증 실패" });
+        }
+        req.logIn(user, (err) => {
+            if(err){
+                return next(err);
+            }
+            return res.status(200).json({ message: "로그인 성공", user });
+        });
+    })(req, res, next);
+}
+
+const logoutUser = (req, res) => {
+    req.logout((err) => {
+        if(err){
+            return res.status(500).json({ message: 'Logout error' });
+        }
+        res.redirect('/login');
+    })
+}
+
+module.exports = { singUpUser, loginUser, logoutUser };
