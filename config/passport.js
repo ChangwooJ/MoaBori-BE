@@ -2,6 +2,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
+require('dotenv').config();
 
 passport.use(
     new LocalStrategy(
@@ -25,7 +26,7 @@ passport.use(
       }
     )
   );
-  
+
   // 사용자 정보를 세션에 저장
   passport.serializeUser((user, done) => {
     done(null, user.id);

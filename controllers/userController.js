@@ -1,5 +1,6 @@
 const passport = require('passport');
 const User = require('../models/userModel');
+const bcrypt = require('bcryptjs');
 
 const singUpUser = async (req, res) => {
     const { name, email, password } = req.body;
@@ -9,15 +10,18 @@ const singUpUser = async (req, res) => {
     }
 
     try {
-        const newUser = await User.create({ name, email, password });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await User.create({ name, email, password: hashedPassword });
         res.status(201).json({ message: '회원가입 성공' });
     } catch (error) {
+        console.error('Error during signup:', error);
         res.status(500).json({ message: error.message });
     }
 }
 
 const loginUser = (req, res, next) => {
-    passport.authenticate("local", (res, req, info) => {
+    passport.authenticate("local", (err, user, info) => {
+        console.log(user);
         if(err){
             return next(err);
         }

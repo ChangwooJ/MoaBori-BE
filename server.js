@@ -2,8 +2,8 @@ const express = require('express');
 const session = require("express-session");
 const cors = require('cors');
 const passport = require("passport");
+require('./config/passport');
 const userRoutes = require('./routes/userRoutes');
-const openbankRoutes = require('./routes/openbankRoutes');
 
 const app = express();
 
@@ -27,11 +27,10 @@ app.use(passport.session());
 
 //Routes
 app.use('/api/users', userRoutes);
-app.use('/openapi', openbankRoutes);
 
 //MongoDB 연결
-//const connectDB = require('./config/db');
-//connectDB();
+const connectDB = require('./config/db');
+connectDB();
 
 //Server 연결
 const PORT = process.env.PORT || 8000;
