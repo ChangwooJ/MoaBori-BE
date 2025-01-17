@@ -29,13 +29,13 @@ passport.use(
 
   // 사용자 정보를 세션에 저장
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user._id);
   });
   
   // 세션에서 사용자 정보를 복원
-  passport.deserializeUser(async (id, done) => {
+  passport.deserializeUser(async (_id, done) => {
     try {
-      const user = await User.findById(id);
+      const user = await User.findById(_id);
       done(null, user);
     } catch (error) {
       done(error);

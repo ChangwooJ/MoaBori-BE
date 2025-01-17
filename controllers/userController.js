@@ -30,8 +30,10 @@ const loginUser = (req, res, next) => {
         }
         req.logIn(user, (err) => {
             if(err){
+                console.error("Login Error:", err);
                 return next(err);
             }
+            console.log("Session Data after login:", req.session);
             return res.status(200).json({ message: "로그인 성공", user });
         });
     })(req, res, next);
